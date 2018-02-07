@@ -4,6 +4,8 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 
+# general
+
 
 def check_events(ai_settings, screen, ship, bullets):
     # """Respond to keypresses and mouse events."""
@@ -28,12 +30,6 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
         sys.exit()
 
 
-def fire_bullet(ai_settings, screen, ship, bullets):
-    if (len(bullets) < ai_settings.bullets_allowed):
-        new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)
-
-
 def check_keyup_events(event, ship):
     if event.key == pygame.K_RIGHT:
         ship.moving_right = False
@@ -53,13 +49,36 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     pygame.display.flip()
 
 
-def update_bullets(bullets):
+# bullets
+
+def fire_bullet(ai_settings, screen, ship, bullets):
+    if (len(bullets) < ai_settings.bullets_allowed):
+        new_bullet = Bullet(ai_settings, screen, ship)
+        bullets.add(new_bullet)
+
+
+def update_bullets(ai_settings, screen, ship, aliens, bullets):
     # update bullet positions
     bullets.update()
     # get rid of bullets that have dissapeared
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+
+    check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets)
+
+
+def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+    # check to see if bullets hit aliens
+    # if so get rid of bullet and alien
+    collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
+
+    if len(aliens) == 0:
+        # destory existing bullets and create new fleet
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+
+# aliens
 
 
 def get_number_aliens_x(ai_settings, alien_width):
