@@ -7,6 +7,7 @@ from settings import Settings
 from ship import Ship
 from game_stats import GameStats
 from button import Button
+from scoreboard import Scoreboard
 
 
 def run_game():
@@ -22,6 +23,7 @@ def run_game():
     play_button = Button(ai_settings, screen, "Play")
     # create instance to store game stats
     stats = GameStats(ai_settings)
+    sb = Scoreboard(ai_settings, screen, stats)
 
     ship = Ship(screen, ai_settings)
 
@@ -40,7 +42,7 @@ def run_game():
             gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
             gf.update_aliens(ai_settings, stats, screen, ship, aliens, bullets)
 
-        gf.update_screen(ai_settings, screen, stats, ship,
+        gf.update_screen(ai_settings, screen, stats, sb, ship,
                          aliens, bullets, play_button)
 
 

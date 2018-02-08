@@ -46,6 +46,8 @@ def check_play_button(ai_settings, screen, stats, play_button,
                       ship, aliens, bullets, mouse_x, mouse_y):
     # start game when player clicks button
     if play_button.rect.collidepoint(mouse_x, mouse_y) and not stats.game_active:
+        # reset game difficulty
+        ai_settings.initialize_dynamic_settings()
         # hide mouse cursor
         pygame.mouse.set_visible(False)
         # reset game stats
@@ -61,7 +63,7 @@ def check_play_button(ai_settings, screen, stats, play_button,
         ship.center_ship()
 
 
-def update_screen(ai_settings, screen, stats, ship,
+def update_screen(ai_settings, screen, stats, sb, ship,
                   aliens, bullets, play_button):
 
     screen.fill(ai_settings.bg_color)
@@ -72,6 +74,8 @@ def update_screen(ai_settings, screen, stats, ship,
 
     ship.blitme()
     aliens.draw(screen)
+
+    sb.show_score()
 
     if not stats.game_active:
         play_button.draw_button()
