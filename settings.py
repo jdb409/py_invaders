@@ -9,10 +9,10 @@ class Settings():
         self.bg_color = (230, 230, 230)
 
         # ship settings
-        self.ship_limit = 3
+        self.ship_limit = 30
 
         # bullet settings
-        self.bullet_width = 300
+        self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 60, 60, 60
         self.bullets_allowed = 30
@@ -33,6 +33,9 @@ class Settings():
 
         # fleet direction of 1 reps right, -1 reps left
         self.fleet_direction = 1
+
+        # scoring
+        self.alien_points = 50
 
     def increase_speed(self):
         self.ship_speed_factor *= self.speedup_scale
